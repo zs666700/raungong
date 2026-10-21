@@ -1,0 +1,54 @@
+# 出行计划智能助手 —— 后端依赖
+# 版本已按本机实测通过钉死（BACKEND.md 第 2 章的 M0 要求）。
+# 装法：python -m pip install -r requirements.txt
+
+# ---- Web 框架 ----
+fastapi==0.128.8
+uvicorn==0.40.0
+python-multipart==0.0.21
+
+# ---- 数据校验 ----
+pydantic==2.14.1
+pydantic-settings==2.16.0
+
+# ---- ORM ----
+SQLAlchemy==2.1.5
+aiosqlite==0.22.1
+greenlet==3.5.6            # SQLAlchemy 异步必备
+
+# ---- 鉴权 ----
+PyJWT==2.15.1
+pwdlib[argon2]==0.3.1
+argon2-cffi==25.1.0
+
+# ---- Agent ----
+langchain==1.4.6
+langchain-core==1.6.12
+langgraph==1.2.16
+langgraph-prebuilt==1.1.1
+langchain-openai==1.7.2
+
+# ---- MCP ----
+mcp==1.30.0
+langchain-mcp-adapters==0.3.2
+
+# ---- 向量库 ----
+chromadb==1.5.9
+
+# ---- 嵌入 ----
+# 默认走 OpenAI 兼容的 /embeddings 接口（TPA_RAG_EMBEDDING_PROVIDER=api），
+# 只需要 httpx，不用装 torch，也不用下载 2.3 GB 的模型权重。
+#
+# 只有离线部署 / 想本地跑模型时才额外装：
+#   python -m pip install "sentence-transformers>=3.0"
+# 然后把 TPA_RAG_EMBEDDING_PROVIDER 改成 local。
+
+# ---- 文档解析 ----
+pypdf==6.21.1
+python-docx==1.2.0
+trafilatura==2.3.1
+beautifulsoup4==4.15.0
+lxml==6.1.3
+
+# ---- 出站 HTTP ----
+httpx==0.28.1

@@ -1,0 +1,43 @@
+# ---- 密钥与运行时数据一律不入库 ----
+.env
+.env.*
+!.env.example
+
+data/
+.acl-recovery/
+
+# ---- 前端（本仓库只放后端）----
+frontend/
+front/
+requirements-frontend.txt
+.nicegui/
+artifacts/
+
+# ---- 运行日志 ----
+*.log
+server.log
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ---- 编辑器 / 系统 ----
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# ---- 模型缓存（BGE-M3 很大，别提交）----
+models/
+.cache/
+
+# ---- ��ʱ���Խű�������⣩----
+.scratch/
+.tmp*
+
