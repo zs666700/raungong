@@ -1,0 +1,4 @@
+# NiceGUI 3.x 依赖 starlette>=1.3，会顶掉后端钉死的 fastapi==0.128.8 / starlette==0.52.1
+nicegui>=2.0,<3
+httpx>=0.27
+websockets>=12

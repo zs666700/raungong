@@ -6,16 +6,14 @@
 data/
 .acl-recovery/
 
-# ---- 前端（本仓库只放后端）----
-frontend/
-front/
-requirements-frontend.txt
-.nicegui/
-artifacts/
-
 # ---- 运行日志 ----
 *.log
 server.log
+
+# ---- 前端运行时（NiceGUI 的会话存储、联调截图）----
+.nicegui/
+frontend/.nicegui/
+artifacts/
 
 # ---- Python ----
 __pycache__/
@@ -37,7 +35,6 @@ Thumbs.db
 models/
 .cache/
 
-# ---- ��ʱ���Խű�������⣩----
+# ---- 临时调试脚本（不入库）----
 .scratch/
 .tmp*
-

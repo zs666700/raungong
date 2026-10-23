@@ -1,9 +1,13 @@
-# 出行计划智能助手 —— 后端
+# 出行计划智能助手（后端 + 前端）
 
-对话式出行规划助手的后端：问一句 → 查天气 / 查地点 → 出带卡片的行程 → 数据全存下来。
+对话式出行规划助手：问一句 → 查天气 / 查地点 → 出带卡片的行程 → 数据全存下来。
+
+> **本仓库包含两部分**
+> - **后端**（本文档主体）：`backend/`、`mcp_servers/`、`scripts/`
+> - **前端**：`frontend/`（NiceGUI，服务端渲染），启动方式见 [frontend/README.md](frontend/README.md)
 
 **接口与数据契约以 [`docs/BACKEND.md`](docs/BACKEND.md) 为唯一来源**，本 README 只讲"怎么跑"。
-配套文档：[前端](docs/FRONTEND.md)　[测试](docs/TESTING.md)　[索引](docs/DEVELOPMENT.md)
+配套文档：[前端设计](docs/FRONTEND.md)　[测试](docs/TESTING.md)　[索引](docs/DEVELOPMENT.md)
 
 | 项 | 内容 |
 |---|---|
@@ -114,6 +118,17 @@ python scripts/smoke.py
 uvicorn backend.main:app --reload --port 8000
 ```
 
+**前端（可选，另一个终端；后端要先起好）**
+
+```bash
+python -m pip install -r requirements-frontend.txt
+python -m frontend.main            # 打开 http://127.0.0.1:8080
+```
+
+> 没有后端也能调 UI 样式：`$env:TPA_MOCK="1"; python -m frontend.main`（PowerShell）。
+> 细节（环境变量、目录、交互实现）见 [frontend/README.md](frontend/README.md)。
+> 注意 `requirements-frontend.txt` 把 NiceGUI 限在 `<3`：3.x 要求 `starlette>=1.3`，会顶掉后端钉死的版本。
+
 打开 <http://127.0.0.1:8000/docs> 可以直接试 19 个 REST 接口（WebSocket 除外），
 <http://127.0.0.1:8000/healthz> 探活、<http://127.0.0.1:8000/readyz> 查 DB 与 MCP。
 
@@ -160,6 +175,17 @@ Travel Planning Agent/
 └─ scripts/
    ├─ init_db.py
    └─ smoke.py
+
+frontend/                # NiceGUI 前端（详见 frontend/README.md）
+├─ main.py               # ui.run + "/" 路由
+├─ config.py             # 环境变量与 WS 地址（不 import backend）
+├─ api_client.py         # httpx 封装 + MockApiClient
+├─ ws_client.py          # websockets 封装 + MockChatSocket
+├─ state.py / theme.py / ui_utils.py
+├─ mock_store.py / mock_data.py   # TPA_MOCK=1 时的写死数据
+├─ components/           # shell / conversation_list / message_bubble / itinerary_card /
+│                        # tool_call_panel / thinking_bar / dialogs / markdown_export
+└─ pages/                # login / chat / knowledge / users
 ```
 
 **依赖方向（Code Review 只看这一条）**
@@ -170,6 +196,7 @@ api/ ──► services/ ──► agent/ , mcp_manager , models , schemas
 
 ✗ api/ 禁止 import agent/ 或 mcp_manager
 ✗ mcp_servers/ 与 backend/ 禁止互相 import
+✗ frontend/ 禁止 import backend/（只走 HTTP / WebSocket）
 ```
 
 ---
